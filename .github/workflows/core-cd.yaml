@@ -1,26 +1,29 @@
-name: Publish Comon Library
+name: Publish Common Library
 
 on:
-    push:
-        branches:
-            - main
-        paths:
-            - 'common/**'
-        tags:
-            - 'v*'
+  push:
+    branches:
+      - main
+    paths:
+      - 'common/**'
+    tags:
+      - 'v*'
 
 jobs:
-    publish:
-        runs-on: ubuntu-latest
+  publish:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-            - name: Go to common directory
-              run: cd common
+      - name: Go to common directory
+        run: cd common
 
-            - name: Publish to npm
-              run: npm publish --access public
-              env:
-                NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - name: Install dependencies
+        run: npm install
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
