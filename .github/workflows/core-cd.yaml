@@ -17,13 +17,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Go to common directory
-        run: cd common
-
       - name: Install dependencies
-        run: npm install
+        run: |
+          cd common
+          npm install
 
       - name: Publish to npm
-        run: npm publish --access public
+        run: |
+          cd common
+          npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
