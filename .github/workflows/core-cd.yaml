@@ -17,6 +17,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Authenticate with npm
+        run: echo "authToken=${{ secrets.NPM_TOKEN }}"
+
       - name: Install dependencies
         run: |
           cd common
