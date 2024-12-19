@@ -17,6 +17,9 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v2
 
+            - name: Go to common directory
+              run: cd common
+
             - name: Publish to npm
               run: npm publish --access public
               env:
