@@ -1,5 +1,5 @@
 {
-  "name": "@hireverse/service-core",
+  "name": "@hireverse/service-common",
   "version": "1.0.1",
   "description": "Core package for microservices hireverse app",
   "main": "dist/index.js", 
@@ -10,10 +10,7 @@
   },
   "dependencies": {
     "typeorm": "^0.3.0",
-    "mongoose": "^7.0.0",
-    "reflect-metadata": "^0.1.13",
-    "class-validator": "^0.14.0",
-    "class-transformer": "^0.5.1"
+    "mongoose": "^7.0.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
@@ -30,15 +27,7 @@
     "type": "git",
     "url": "https://github.com/HireVerse-ORG/shared-library.git"
   },
-  "keywords": [
-    "core",
-    "postgres",
-    "mongodb",
-    "orm",
-    "typeorm",
-    "mongoose"
-  ],
-  "author": "Your Name",
+  "author": "HireVerse",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/HireVerse-ORG/shared-library.git/issues"

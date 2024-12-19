@@ -1,0 +1,23 @@
+name: Publish Package to NPM
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - 'common/**'
+        tags:
+            - 'v*'
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Publish to npm
+              run: npm publish --access public
+              env:
+                NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
