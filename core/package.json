@@ -1,0 +1,51 @@
+{
+  "name": "@hireverse/service-core",
+  "version": "1.0.1",
+  "description": "Core package for microservices hireverse app",
+  "main": "dist/index.js", 
+  "types": "dist/index.d.ts", 
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build" 
+  },
+  "dependencies": {
+    "typeorm": "^0.3.0",
+    "mongoose": "^7.0.0",
+    "reflect-metadata": "^0.1.13",
+    "class-validator": "^0.14.0",
+    "class-transformer": "^0.5.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.0.0"
+  },
+  "peerDependencies": {
+    "typeorm": "^0.3.0",
+    "mongoose": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HireVerse-ORG/shared-library.git"
+  },
+  "keywords": [
+    "core",
+    "postgres",
+    "mongodb",
+    "orm",
+    "typeorm",
+    "mongoose"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HireVerse-ORG/shared-library.git/issues"
+  },
+  "homepage": "https://github.com/HireVerse-ORG/shared-library.git#readme",
+  "files": [
+    "dist",
+    "package.json"
+  ]
+}
