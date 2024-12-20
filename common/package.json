@@ -1,6 +1,6 @@
 {
   "name": "@hireverse/service-common",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Core package for microservices hireverse app",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -8,19 +8,9 @@
     "build": "tsc",
     "prepublishOnly": "npm run build"
   },
-  "dependencies": {
-    "dotenv": "^16.4.7",
-    "mongoose": "^7.0.0",
-    "typeorm": "^0.3.0"
-  },
   "devDependencies": {
     "ts-node": "^10.0.0",
     "typescript": "^5.0.0"
-  },
-  "peerDependencies": {
-    "mongoose": "^7.0.0",
-    "typeorm": "^0.3.0",
-    "dotenv": "^16.4.7"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -38,5 +28,12 @@
   "files": [
     "dist",
     "package.json"
-  ]
+  ],
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mongoose": "^8.9.2",
+    "typeorm": "^0.3.20",
+    "winston": "^3.17.0",
+    "winston-logstash": "^1.2.1"
+  }
 }

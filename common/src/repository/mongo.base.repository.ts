@@ -1,5 +1,5 @@
 import { Model, Document, FilterQuery, QueryOptions } from 'mongoose';
-import { IRepository } from '../types/repository.interface';
+import { IRepository } from './repository.interface';
 import { InternalError } from '../app.errors';
 
 export class MongoBaseRepository<T extends Document> implements IRepository<T> {

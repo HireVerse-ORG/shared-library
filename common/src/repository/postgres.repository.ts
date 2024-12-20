@@ -1,12 +1,12 @@
-import { DataSource, EntityTarget, FindManyOptions, Repository } from 'typeorm';
+import { FindManyOptions, Repository } from 'typeorm';
 import { ObjectLiteral } from 'typeorm';
-import { IRepository } from '../types/repository.interface';
+import { IRepository } from './repository.interface';
 
 export class PostgresBaseRepository<T extends ObjectLiteral> implements IRepository<T> {
   private repository: Repository<T>;
 
-  constructor(datsource: DataSource, entity: EntityTarget<T>) {
-    this.repository = datsource.getRepository(entity);
+  constructor(repository: Repository<T>) {
+    this.repository = repository;
   }
 
   async create(data: T): Promise<T> {
