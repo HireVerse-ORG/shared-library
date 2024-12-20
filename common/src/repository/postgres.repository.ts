@@ -2,7 +2,7 @@ import { DataSource, EntityTarget, FindManyOptions, Repository } from 'typeorm';
 import { ObjectLiteral } from 'typeorm';
 import { IRepository } from '../types/repository.interface';
 
-export class RepositoryService<T extends ObjectLiteral> implements IRepository<T> {
+export class PostgresBaseRepository<T extends ObjectLiteral> implements IRepository<T> {
   private repository: Repository<T>;
 
   constructor(datsource: DataSource, entity: EntityTarget<T>) {
