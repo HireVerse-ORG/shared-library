@@ -1,2 +1,3 @@
-export * from './app.errors';
+export * as AppErrors from './app.errors';
 export * as repository from './repository';
+export * as logger from './logger';

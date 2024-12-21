@@ -1,6 +1,6 @@
 {
   "name": "@hireverse/service-common",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Core package for microservices hireverse app",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
