@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+  rpc ValidateUser (ValidateUserRequest) returns (ValidateUserResponse);
+  rpc GetUser (GetUserRequest) returns (GetUserResponse);
+}
+
+enum UserRole {
+  ADMIN = 0;
+  USER = 1;
+  COMPANY = 2;
+}
+
+message CreateUserRequest {
+  string email = 1;
+  string password = 2;
+  string role = 3;
+}
+
+message CreateUserResponse {
+  string userId = 1;
+  UserRole role = 2;
+  string message = 3;
+}
+
+message ValidateUserRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message ValidateUserResponse {
+  string userId = 1;
+  string role = 2;
+  string message = 3;
+}
+
+message GetUserRequest {
+  string userId = 1;
+}
+
+message GetUserResponse {
+  string id = 1;
+  string email = 2;
+  string role = 4;
+  bool isVerified = 5;
+  bool isBlocked = 6;
+  int32 connectionCount = 7;
+  string createdAt = 8;
+  string updatedAt = 9;
+}
