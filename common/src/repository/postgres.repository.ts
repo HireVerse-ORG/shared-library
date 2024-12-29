@@ -53,6 +53,14 @@ export class PostgresBaseRepository<T extends ObjectLiteral> implements IReposit
     }
   }
 
+  async findOne(filter: FindManyOptions<T>): Promise<T | null> {
+    try {
+      return await this.repository.findOne(filter);
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
   protected handleError(error: unknown): never {
     if (error instanceof Error) {
       throw new InternalError(error.message);
