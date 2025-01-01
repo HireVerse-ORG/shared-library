@@ -22,6 +22,10 @@ export function allowedRoles(...allowedRoles: UserRole[]): RequestHandler[] {
                 return next();
             }
 
+            if(req.payload?.isBlocked){
+                return res.status(403).json({ message: 'You are blocked' });
+            }
+
             return res.status(403).json({ message: 'Access denied' });
         }) as RequestHandler,
     ];

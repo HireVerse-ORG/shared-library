@@ -1,8 +1,8 @@
 import { Model, Document, FilterQuery, QueryOptions } from 'mongoose';
-import { IRepository } from './repository.interface';
+import { IMongoRepository, IPaginationResponse, IRepository } from './repository.interface';
 import { InternalError } from '../app.errors';
 
-export class MongoBaseRepository<T extends Document> implements IRepository<T> {
+export class MongoBaseRepository<T extends Document> implements IMongoRepository<T> {
   protected repository: Model<T>;
 
   constructor(repository: Model<T>) {
@@ -18,9 +18,9 @@ export class MongoBaseRepository<T extends Document> implements IRepository<T> {
     }
   }
 
-  async findById(id: string): Promise<T | null> {
+  async findById(id: string, select?: string): Promise<T | null> {
     try {
-      return await this.repository.findById(id);
+      return await this.repository.findById(id).select(select || '');
     } catch (error) {
       this.handleError(error);
     }
@@ -43,17 +43,53 @@ export class MongoBaseRepository<T extends Document> implements IRepository<T> {
     }
   }
 
-  async findAll(filter: FilterQuery<T> = {}, options: QueryOptions = {}): Promise<T[]> {
+  async findAll(filter: FilterQuery<T> = {}, options: QueryOptions = {}, select?: string): Promise<T[]> {
     try {
-      return await this.repository.find(filter, null, options) as unknown as T[];
+      return await this.repository.find(filter, null, { ...options, select: select || '' }) as unknown as T[];
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  async findOne(filter: FilterQuery<T> = {}, options: QueryOptions = {}): Promise<T | null> {
+  async findOne(filter: FilterQuery<T> = {}, options: QueryOptions = {}, select?: string): Promise<T | null> {
     try {
-      return await this.repository.findOne(filter, null, options);
+      return await this.repository.findOne(filter, null, { ...options, select: select || '' });
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async paginate(
+    filter: FilterQuery<T> = {},
+    page: number = 1,
+    limit: number = 10,
+    options: QueryOptions = {},
+    select?: string
+  ): Promise<IPaginationResponse<T>> {
+    try {
+      if (page < 1) page = 1;
+      if (limit < 1) limit = 1;
+
+      const skip = (page - 1) * limit;
+
+      const data = await this.repository.find(filter, null, { ...options, skip, limit, select: select || '' }).exec();
+
+      const total = await this.repository.countDocuments(filter).exec();
+
+      const totalPages = Math.ceil(total / limit);
+
+      const hasPreviousPage = page > 1;
+      const hasNextPage = page < totalPages;
+
+      return {
+        data,
+        total,
+        limit,
+        currentPage: page,
+        totalPages,
+        hasPreviousPage,
+        hasNextPage,
+      };
     } catch (error) {
       this.handleError(error);
     }

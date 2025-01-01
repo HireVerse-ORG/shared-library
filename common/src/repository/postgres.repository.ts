@@ -1,9 +1,9 @@
 import { DeepPartial, FindManyOptions, Repository } from 'typeorm';
 import { ObjectLiteral } from 'typeorm';
-import { IRepository } from './repository.interface';
+import { IPaginationResponse, IPostgresRepository, IRepository } from './repository.interface';
 import { InternalError } from '../app.errors';
 
-export class PostgresBaseRepository<T extends ObjectLiteral> implements IRepository<T> {
+export class PostgresBaseRepository<T extends ObjectLiteral> implements IPostgresRepository<T> {
   protected repository: Repository<T>;
 
   constructor(repository: Repository<T>) {
@@ -14,14 +14,6 @@ export class PostgresBaseRepository<T extends ObjectLiteral> implements IReposit
     try {
       const entity = this.repository.create(data);
       return await this.repository.save(entity);
-    } catch (error) {
-      this.handleError(error);
-    }
-  }
-
-  async findById(id: string): Promise<T | null> {
-    try {
-      return await this.repository.findOne({ where: { id } as any });
     } catch (error) {
       this.handleError(error);
     }
@@ -45,17 +37,81 @@ export class PostgresBaseRepository<T extends ObjectLiteral> implements IReposit
     }
   }
 
-  async findAll(filter: FindManyOptions<T>): Promise<T[]> {
+  async findById(id: string, select?: string[]): Promise<T | null> {
     try {
-      return await this.repository.find(filter);
+      const queryBuilder = this.repository.createQueryBuilder();
+      if (select) {
+        queryBuilder.select(select as string[]);
+      }
+      return await queryBuilder.where({ id } as any).getOne();
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  async findOne(filter: FindManyOptions<T>): Promise<T | null> {
+  async findAll(filter: FindManyOptions<T> = {}, select?: string[]): Promise<T[]> {
     try {
-      return await this.repository.findOne(filter);
+      const queryBuilder = this.repository.createQueryBuilder();
+      if (select) {
+        queryBuilder.select(select as string[]);
+      }
+      return await queryBuilder.getMany();
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async findOne(filter: FindManyOptions<T> = {}, select?: string[]): Promise<T | null> {
+    try {
+      const queryBuilder = this.repository.createQueryBuilder();
+      if (select) {
+        queryBuilder.select(select as string[]);
+      }
+      return await queryBuilder.where(filter).getOne();
+    } catch (error) {
+      this.handleError(error);
+    }
+  }
+
+  async paginate(
+    filter: FindManyOptions<T> = {},
+    page: number = 1,
+    limit: number = 10,
+    select?: string[]
+  ): Promise<IPaginationResponse<T>> {
+    try {
+      if (page < 1) page = 1;
+      if (limit < 1) limit = 1;
+
+      const queryBuilder = this.repository.createQueryBuilder();
+
+      if (select) {
+        queryBuilder.select(select as string[]);
+      }
+
+      queryBuilder.skip((page - 1) * limit).take(limit);
+
+      // Apply filter if any
+      if (filter.where) {
+        queryBuilder.where(filter.where);
+      }
+
+      const [data, total] = await queryBuilder.getManyAndCount();
+
+      const totalPages = Math.ceil(total / limit);
+
+      const hasPreviousPage = page > 1;
+      const hasNextPage = page < totalPages;
+
+      return {
+        data,
+        total,
+        limit,
+        currentPage: page,
+        totalPages,
+        hasPreviousPage,
+        hasNextPage,
+      };
     } catch (error) {
       this.handleError(error);
     }

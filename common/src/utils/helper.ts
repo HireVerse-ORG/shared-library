@@ -38,3 +38,7 @@ export function mapErrorToGrpcStatus(error: ApplicationError): number {
   return grpc.status.INTERNAL;
 }
 
+
+export function querySanitizer(query: string): string {
+  return query.replace(/[.*+?^=!:${}()|\[\]\/\\]/g, '\\$&');
+}
