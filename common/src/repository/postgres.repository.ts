@@ -1,6 +1,6 @@
-import { DeepPartial, FindManyOptions, Repository } from 'typeorm';
+import { DeepPartial, FindManyOptions, FindOneOptions, FindOptionsWhere, Repository } from 'typeorm';
 import { ObjectLiteral } from 'typeorm';
-import { IPaginationResponse, IPostgresRepository, IRepository } from './repository.interface';
+import { IPaginationResponse, IPostgresRepository } from './repository.interface';
 import { InternalError } from '../app.errors';
 
 export class PostgresBaseRepository<T extends ObjectLiteral> implements IPostgresRepository<T> {
@@ -19,55 +19,35 @@ export class PostgresBaseRepository<T extends ObjectLiteral> implements IPostgre
     }
   }
 
-  async update(id: string, data: Partial<T>): Promise<T | null> {
+  async update(criteria: string | number | FindOptionsWhere<T>, data: Partial<T>): Promise<T | null> {
     try {
-      await this.repository.update(id, data);
-      return await this.findById(id);
+      const result = await this.repository.update(criteria, data);
+      return result.affected ? result.raw : null;
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(criteria: string | number | FindOptionsWhere<T>): Promise<boolean> {
     try {
-      const result = await this.repository.delete(id);
+      const result = await this.repository.delete(criteria);
       return result.affected !== 0;
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  async findById(id: string, select?: string[]): Promise<T | null> {
+  async findAll(filter: FindManyOptions<T> = {}): Promise<T[]> {
     try {
-      const queryBuilder = this.repository.createQueryBuilder();
-      if (select) {
-        queryBuilder.select(select as string[]);
-      }
-      return await queryBuilder.where({ id } as any).getOne();
+      return await this.repository.find(filter);
     } catch (error) {
       this.handleError(error);
     }
   }
 
-  async findAll(filter: FindManyOptions<T> = {}, select?: string[]): Promise<T[]> {
+  async findOne(filter: FindOneOptions<T> = {}): Promise<T | null> {
     try {
-      const queryBuilder = this.repository.createQueryBuilder();
-      if (select) {
-        queryBuilder.select(select as string[]);
-      }
-      return await queryBuilder.getMany();
-    } catch (error) {
-      this.handleError(error);
-    }
-  }
-
-  async findOne(filter: FindManyOptions<T> = {}, select?: string[]): Promise<T | null> {
-    try {
-      const queryBuilder = this.repository.createQueryBuilder();
-      if (select) {
-        queryBuilder.select(select as string[]);
-      }
-      return await queryBuilder.where(filter).getOne();
+      return await this.repository.findOne(filter);
     } catch (error) {
       this.handleError(error);
     }
@@ -76,27 +56,17 @@ export class PostgresBaseRepository<T extends ObjectLiteral> implements IPostgre
   async paginate(
     filter: FindManyOptions<T> = {},
     page: number = 1,
-    limit: number = 10,
-    select?: string[]
+    limit: number = 10
   ): Promise<IPaginationResponse<T>> {
     try {
       if (page < 1) page = 1;
       if (limit < 1) limit = 1;
 
-      const queryBuilder = this.repository.createQueryBuilder();
-
-      if (select) {
-        queryBuilder.select(select as string[]);
-      }
-
-      queryBuilder.skip((page - 1) * limit).take(limit);
-
-      // Apply filter if any
-      if (filter.where) {
-        queryBuilder.where(filter.where);
-      }
-
-      const [data, total] = await queryBuilder.getManyAndCount();
+      const [data, total] = await this.repository.findAndCount({
+        where: filter.where,
+        skip: (page - 1) * limit,
+        take: limit,
+      });
 
       const totalPages = Math.ceil(total / limit);
 
