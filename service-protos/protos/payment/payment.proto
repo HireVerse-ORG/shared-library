@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package payment;
+
+message CreateFreePlanRequest {
+    string userId = 1; 
+    string email = 2; 
+    string name = 3; 
+}
+
+message CreateFreePlanResponse {
+    string message = 3;       
+}
+
+service SeekerPaymentService {
+    rpc CreateFreePlan(CreateFreePlanRequest) returns (CreateFreePlanResponse);
+}
+
+service CompanyPaymentService {
+    rpc CreateFreePlan(CreateFreePlanRequest) returns (CreateFreePlanResponse);
+}

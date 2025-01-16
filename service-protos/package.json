@@ -1,6 +1,6 @@
 {
   "name": "@hireverse/service-protos",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Protos shared by services",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

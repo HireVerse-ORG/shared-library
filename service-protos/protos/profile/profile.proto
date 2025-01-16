@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+package profile;
+
+message CreateSeekerProfileRequest {
+    string profileName = 1;
+    string userId = 2;
+    string profileUsername = 3;  
+}
+
+message CreateSeekerProfileResponse {
+    string message = 2;  
+}
+
+message GetCompanyProfileByUserIdRequest {
+    string userId = 1; 
+}
+
+message Location {
+    string country = 1;
+    string city = 2;
+}
+
+message SocialLinks {
+    string linkedin = 1;
+    string twitter = 2;
+    string facebook = 3;
+    string instagram = 4;
+}
+
+
+message CompanyProfile {
+    string id = 1;
+    string userId = 2;
+    string companyId = 3;
+    string name = 4;
+    Location location = 5;
+    string bio = 6;
+    string image = 7;
+    string industry = 8;
+    string companyType = 9;
+    string email = 10;
+    string phone = 11;
+    string website = 12;
+    SocialLinks socialLinks = 13;
+    int32 employeeCount = 14;
+    string status = 15;
+    string founded = 16; 
+    string createdAt = 17;
+    string updatedAt = 18;
+}
+
+message GetCompanyProfileByUserIdResponse {
+    CompanyProfile profile = 1;
+}
+
+service SeekerProfileService {
+    rpc CreateSeekerProfile (CreateSeekerProfileRequest) returns (CreateSeekerProfileResponse);
+}
+
+service CompanyProfileService {
+    rpc GetCompanyProfileByUserId (GetCompanyProfileByUserIdRequest) returns (GetCompanyProfileByUserIdResponse);
+}

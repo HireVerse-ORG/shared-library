@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package job;
+
+service SkillService {
+    rpc GetSkillFromName (SkillNameRequest) returns (SkillNameResponse);
+    rpc GetSkillsFromIds (SkillRequest) returns (SkillResponse);
+    rpc CreateSkill (CreateSkillRequest) returns (CreateSkillResponse);
+}
+
+message SkillNameRequest {
+    string name = 1; 
+}
+message SkillNameResponse {
+    optional Skill skill = 1;
+}
+
+message SkillRequest {
+    repeated string skill_ids = 1; 
+}
+
+message Skill {
+    string id = 1;        
+    string name = 2;
+    bool isActive = 3;     
+}
+message SkillResponse {
+    repeated Skill skills = 1; 
+}
+
+message CreateSkillRequest {
+    string name = 1;        
+    bool isActive = 2;  
+}
+
+message CreateSkillResponse {
+    Skill skill = 1;        
+}
