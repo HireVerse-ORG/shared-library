@@ -17,5 +17,5 @@ service SeekerPaymentService {
 }
 
 service CompanyPaymentService {
-    rpc CreateFreePlan(CreateFreePlanRequest) returns (CreateFreePlanResponse);
+    rpc CreateCompanyFreePlan(CreateFreePlanRequest) returns (CreateFreePlanResponse);
 }
