@@ -1,0 +1,40 @@
+{
+  "name": "@hireverse/kafka-communication",
+  "version": "1.0.0",
+  "description": "kafka events and connections",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "ts-node": "^10.0.0",
+    "ts-proto": "^2.6.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HireVerse-ORG/shared-library.git/kafka-communication"
+  },
+  "author": "HireVerse",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HireVerse-ORG/shared-library.git/issues"
+  },
+  "homepage": "https://github.com/HireVerse-ORG/shared-library.git#readme",
+  "files": [
+    "dist",
+    "protos",
+    "package.json"
+  ],
+  "dependencies": {
+    "kafkajs": "^2.2.4"
+  },
+  "peerDependencies": {
+    "inversify": "^6.2.1"
+  }
+}
