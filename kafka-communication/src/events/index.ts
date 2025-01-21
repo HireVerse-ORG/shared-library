@@ -1,4 +1,2 @@
-import JobPostedEvent from "./jobPosted";
-import UserCreatedEvent from "./userCreated";
-
-export { UserCreatedEvent, JobPostedEvent };
+export * from "./jobEvents";
+export * from "./userEvents";

@@ -7,7 +7,7 @@ export interface UserCreatedMessage {
     fullName: string;
 }
 
-export default function UserCreatedEvent(data: CustomMessage<UserCreatedMessage>): ServerEvent<UserCreatedMessage> {
+export function UserCreatedEvent(data: CustomMessage<UserCreatedMessage>): ServerEvent<UserCreatedMessage> {
     return {
         topic: KafkaTopics.USER_CREATED,
         message: data
