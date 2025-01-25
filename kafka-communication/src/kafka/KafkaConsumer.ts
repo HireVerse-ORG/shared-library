@@ -13,24 +13,35 @@ export class KafkaConsumer {
     await this.consumer.connect();
   }
 
-  async subscribeToTopic<T>(topic: KafkaTopics, handler: (message: T) => void) {
-    await this.consumer.subscribe({ topic, fromBeginning: true });
-
+  async subscribeToTopics(subscriptions: { topic: KafkaTopics, handler: (message: any) => void }[]) {
+    const topicHandlers = new Map<KafkaTopics, (message: any) => void>();
+    
+    for (const { topic, handler } of subscriptions) {
+      await this.consumer.subscribe({ topic, fromBeginning: true });
+      topicHandlers.set(topic, handler); 
+    }
+  
+    // Start consuming messages
     await this.consumer.run({
-      eachMessage: async ({ message }) => {
+      eachMessage: async ({ topic, message }) => {
         const value = message.value?.toString();
-
+  
         if (value) {
           try {
-            const parsedMessage: T = JSON.parse(value);
-            handler(parsedMessage);
+            const parsedMessage = JSON.parse(value);
+  
+            const handler = topicHandlers.get(topic as KafkaTopics);
+  
+            if (handler) {
+              handler(parsedMessage); 
+            }
           } catch (error) {
             console.error(`Failed to process message from topic: ${topic}. Error:`, error);
           }
         }
       },
     });
-  }
+  }  
 
 
   async disconnect() {
