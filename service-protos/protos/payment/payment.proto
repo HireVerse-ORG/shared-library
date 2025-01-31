@@ -12,10 +12,20 @@ message CreateFreePlanResponse {
     string message = 3;       
 }
 
+message CanAccessApplicationRequest {
+    string userId = 1;
+    string applicationId = 2; 
+}
+
+message CanAccessApplicationResponse {
+    bool canAccess  = 3;       
+}
+
 service SeekerPaymentService {
     rpc CreateFreePlan(CreateFreePlanRequest) returns (CreateFreePlanResponse);
 }
 
 service CompanyPaymentService {
     rpc CreateCompanyFreePlan(CreateFreePlanRequest) returns (CreateFreePlanResponse);
+    rpc CanAccessApplication(CanAccessApplicationRequest) returns (CanAccessApplicationResponse);
 }

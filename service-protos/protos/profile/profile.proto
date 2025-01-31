@@ -50,14 +50,58 @@ message CompanyProfile {
     string updatedAt = 18;
 }
 
+message SeekerProfile {
+    string id = 1;
+    string userId = 2; 
+    string profileName = 3; 
+    string title = 4; 
+    Location location = 5;
+    bool isOpenToWork = 6; 
+    string bio = 7; 
+    string profileUsername = 8; 
+    string image = 9; 
+    string coverImage = 10; 
+    repeated string skills = 11; 
+    string createdAt = 12; 
+    string updatedAt = 13; 
+}
+
 message GetCompanyProfileByUserIdResponse {
     CompanyProfile profile = 1;
 }
 
+message GetCompanyProfilesByLocationRequest {
+    Location location = 1;
+    string place = 2;
+}
+
+message GetCompanyProfilesByLocationResponse {
+    repeated CompanyProfile profiles = 1;
+}
+
+message GetCompanyProfilesByIdListRequest {
+    repeated string ids = 1;
+}
+
+message GetCompanyProfilesByIdListResponse {
+    repeated CompanyProfile profiles = 1;
+}
+
+message GetSeekerProfileByUserIdRequest {
+    string userId = 1; 
+}
+
+message GetSeekerProfileByUserIdResponse {
+    SeekerProfile profile = 1;
+}
+
 service SeekerProfileService {
     rpc CreateSeekerProfile (CreateSeekerProfileRequest) returns (CreateSeekerProfileResponse);
+    rpc GetSeekerProfileByUserId (GetSeekerProfileByUserIdRequest) returns (GetSeekerProfileByUserIdResponse);
 }
 
 service CompanyProfileService {
     rpc GetCompanyProfileByUserId (GetCompanyProfileByUserIdRequest) returns (GetCompanyProfileByUserIdResponse);
+    rpc GetCompanyProfilesByLocation (GetCompanyProfilesByLocationRequest) returns (GetCompanyProfilesByLocationResponse);
+    rpc GetCompanyProfilesByIdList (GetCompanyProfilesByIdListRequest) returns (GetCompanyProfilesByIdListResponse);
 }
