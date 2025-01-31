@@ -1,0 +1,34 @@
+name: Publish Kafka Communication Library
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'kafka-communication/**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '21'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies and build 🔧
+        run: |
+          cd kafka-communication
+          npm install
+
+      - name: Publish package on NPM 📦
+        run: |
+          cd kafka-communication
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
