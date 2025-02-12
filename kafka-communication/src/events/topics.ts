@@ -10,4 +10,7 @@ export enum KafkaTopics {
     JOB_APPLICATION_VIEWED = 'job-application-viewed',
     JOB_APPLICATION_VIEW_UPDATED = 'job-application-viewed-updated',
     RESUME_COMMENTED = 'RESUME_COMMENTED',
+    FOLLOW_REQUESTED = 'follow-requested',
+    FOLLOW_ACCEPTED = 'follow-accepted',
+    FOLLOW_REJECTED = 'follow-rejected',
 }
