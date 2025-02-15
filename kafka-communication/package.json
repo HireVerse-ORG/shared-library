@@ -1,6 +1,6 @@
 {
   "name": "@hireverse/kafka-communication",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "kafka events and connections",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
