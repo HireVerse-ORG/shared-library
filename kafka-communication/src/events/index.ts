@@ -3,3 +3,4 @@ export * from "./userEvents";
 export * from "./jobApplicationEvents";
 export * from "./followRequestEvents";
 export * from "./interviewScheduleEvents";
+export * from "./jobOfferEvents";

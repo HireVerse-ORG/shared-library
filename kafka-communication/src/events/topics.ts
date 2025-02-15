@@ -17,4 +17,7 @@ export enum KafkaTopics {
     INTERVIEW_SCHEDULE_ACCEPTED = 'interview-schedule-accepted',
     INTERVIEW_SCHEDULE_REJECTED = 'interview-schedule-rejected',
     INTERVIEW_SCHEDULE_CANCELLLED = 'interview-schedule-cancelled',
+    JOB_OFFERED = 'job-offered',
+    JOB_OFFER_ACCEPTED = 'job-offer-accepted',
+    JOB_OFFER_REJECTED = 'job-offer-rejected',
 }
