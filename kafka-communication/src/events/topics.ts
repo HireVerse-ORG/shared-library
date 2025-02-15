@@ -13,4 +13,8 @@ export enum KafkaTopics {
     FOLLOW_REQUESTED = 'follow-requested',
     FOLLOW_ACCEPTED = 'follow-accepted',
     FOLLOW_REJECTED = 'follow-rejected',
+    INTERVIEW_SCHEDULED = 'interview-scheduled',
+    INTERVIEW_SCHEDULE_ACCEPTED = 'interview-schedule-accepted',
+    INTERVIEW_SCHEDULE_REJECTED = 'interview-schedule-rejected',
+    INTERVIEW_SCHEDULE_CANCELLLED = 'interview-schedule-cancelled',
 }
