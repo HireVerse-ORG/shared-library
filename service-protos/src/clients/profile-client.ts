@@ -31,3 +31,17 @@ export function CompanyProfileClient(url: string, credentials: grpc.ChannelCrede
         throw new Error(`Error connecting profile service client at ${url}: ${error}`);
     }
 };
+
+export function FollowerClient(url: string, credentials: grpc.ChannelCredentials = grpc.credentials.createInsecure()) {
+    try {
+        const client = new profileProto.profile.FollowerService(
+            url,
+            credentials
+        );
+
+        return client;
+    }
+    catch (error) {
+        throw new Error(`Error connecting profile service client at ${url}: ${error}`);
+    }
+};

@@ -95,6 +95,15 @@ message GetSeekerProfileByUserIdResponse {
     SeekerProfile profile = 1;
 }
 
+message CheckIsFollowingRequest {
+    string followerId = 1;
+    string followingId = 2;
+}
+
+message CheckIsFollowingResponse {
+    bool isFollowing = 1;
+}
+
 service SeekerProfileService {
     rpc CreateSeekerProfile (CreateSeekerProfileRequest) returns (CreateSeekerProfileResponse);
     rpc GetSeekerProfileByUserId (GetSeekerProfileByUserIdRequest) returns (GetSeekerProfileByUserIdResponse);
@@ -105,3 +114,9 @@ service CompanyProfileService {
     rpc GetCompanyProfilesByLocation (GetCompanyProfilesByLocationRequest) returns (GetCompanyProfilesByLocationResponse);
     rpc GetCompanyProfilesByIdList (GetCompanyProfilesByIdListRequest) returns (GetCompanyProfilesByIdListResponse);
 }
+
+service FollowerService {
+    rpc CheckIsFollowing (CheckIsFollowingRequest) returns (CheckIsFollowingResponse);
+}
+
+

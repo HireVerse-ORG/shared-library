@@ -21,8 +21,17 @@ message CanAccessApplicationResponse {
     bool canAccess  = 3;       
 }
 
+message SeekerCanMessageRequest {
+    string userId = 1;
+}
+
+message SeekerCanMessageResponse {
+    bool canMessage  = 1;       
+}
+
 service SeekerPaymentService {
     rpc CreateFreePlan(CreateFreePlanRequest) returns (CreateFreePlanResponse);
+    rpc SeekerCanMessage(SeekerCanMessageRequest) returns (SeekerCanMessageResponse);
 }
 
 service CompanyPaymentService {

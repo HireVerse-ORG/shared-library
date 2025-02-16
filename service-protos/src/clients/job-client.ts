@@ -17,3 +17,17 @@ export function JobskillServiceClient(url: string, credentials: grpc.ChannelCred
         throw new Error(`Error connecting job skill service client at ${url}: ${error}`);
     }
 };
+
+export function JobsInterviewServiceClient(url: string, credentials: grpc.ChannelCredentials = grpc.credentials.createInsecure()) {
+    try {
+        const client = new jobProto.job.InterviewService(
+            url,
+            credentials
+        );
+
+        return client;
+    }
+    catch (error) {
+        throw new Error(`Error connecting jobs interview service client at ${url}: ${error}`);
+    }
+};

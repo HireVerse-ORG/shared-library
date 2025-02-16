@@ -1,11 +1,36 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 package job;
 
 service SkillService {
     rpc GetSkillFromName (SkillNameRequest) returns (SkillNameResponse);
     rpc GetSkillsFromIds (SkillRequest) returns (SkillResponse);
     rpc CreateSkill (CreateSkillRequest) returns (CreateSkillResponse);
+}
+
+service InterviewService {
+    rpc GetInterviewFromId (InterviewIdRequest) returns (InterviewIdResponse);
+}
+
+message InterviewIdRequest {
+    string id = 1; 
+}
+message InterviewIdResponse {
+    optional Interview interview = 1;
+}
+
+message Interview {
+    string id = 1;
+    string job = 2;
+    string application = 3;
+    string applicantId = 4;
+    string interviewerId = 5;
+    google.protobuf.Timestamp scheduledTime = 6;
+    string type = 7;
+    string status = 8;
+    optional string description = 9;
 }
 
 message SkillNameRequest {
